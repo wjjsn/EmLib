@@ -1,3 +1,6 @@
 [submodule "CherryRB"]
 	path = CherryRB
 	url = https://github.com/wjjsn/CherryRB.git
+[submodule "SEGGER_RTT"]
+	path = SEGGER_RTT
+	url = https://github.com/wjjsn/SEGGER_RTT.git
