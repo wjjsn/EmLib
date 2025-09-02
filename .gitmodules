@@ -1,0 +1,3 @@
+[submodule "CherryRB"]
+	path = CherryRB
+	url = https://github.com/wjjsn/CherryRB.git
