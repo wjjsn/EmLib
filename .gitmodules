@@ -4,3 +4,9 @@
 [submodule "SEGGER_RTT"]
 	path = SEGGER_RTT
 	url = https://github.com/wjjsn/SEGGER_RTT.git
+[submodule "HAL"]
+	path = HAL
+	url = https://github.com/wjjsn/HAL.git
+[submodule "Hardware"]
+	path = Hardware
+	url = https://github.com/wjjsn/Hardware.git
