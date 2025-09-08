@@ -61,8 +61,7 @@ class LOG_
 	};
 
 public:
-	static inline void
-	TRACE(const char *format, ...)
+	static inline void TRACE(const char *format, ...)
 	{
 		if constexpr (level > LogLevel::TRACE) {}
 		else
@@ -72,7 +71,7 @@ public:
 			va_start(args, format);
 			write(color::TEXT_BLACK, sizeof(color::TEXT_BLACK) - 1);
 			write("[TRACE] ", sizeof("[TRACE] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -87,7 +86,7 @@ public:
 			va_start(args, format);
 			write(color::TEXT_BLUE, sizeof(color::TEXT_BLUE) - 1);
 			write("[DEBUG] ", sizeof("[DEBUG] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -102,7 +101,7 @@ public:
 			va_start(args, format);
 			write(color::TEXT_GREEN, sizeof(color::TEXT_GREEN) - 1);
 			write("[INFO] ", sizeof("[INFO] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -117,7 +116,7 @@ public:
 			va_start(args, format);
 			write(color::TEXT_YELLOW, sizeof(color::TEXT_YELLOW) - 1);
 			write("[WARN] ", sizeof("[WARN] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -132,7 +131,7 @@ public:
 			va_start(args, format);
 			write(color::TEXT_RED, sizeof(color::TEXT_RED) - 1);
 			write("[ERROR] ", sizeof("[ERROR] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -148,7 +147,93 @@ public:
 			write(color::BG_RED, sizeof(color::BG_RED) - 1);
 			write(color::TEXT_WHITE, sizeof(color::TEXT_WHITE) - 1);
 			write("[CRITICAL] ", sizeof("[CRITICAL] ") - 1);
-			std::snprintf(buffer, length, format, args);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+
+	static inline void TRACE_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::TRACE) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::TEXT_BLACK, sizeof(color::TEXT_BLACK) - 1);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+	static inline void INFO_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::INFO) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::TEXT_GREEN, sizeof(color::TEXT_GREEN) - 1);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+	static inline void DBG_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::DBG) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::TEXT_BLUE, sizeof(color::TEXT_BLUE) - 1);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+	static inline void WARN_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::WARN) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::TEXT_YELLOW, sizeof(color::TEXT_YELLOW) - 1);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+	static inline void ERROR_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::ERROR) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::TEXT_RED, sizeof(color::TEXT_RED) - 1);
+			std::vsnprintf(buffer, length, format, args);
+			va_end(args);
+			write(buffer, std::strlen(buffer));
+			write(color::RESET, sizeof(color::RESET) - 1);
+		}
+	}
+	static inline void CRITICAL_NOHEAD(const char *format, ...)
+	{
+		if constexpr (level > LogLevel::CRITICAL) {}
+		else
+		{
+			va_list args;
+			va_start(args, format);
+			write(color::BG_RED, sizeof(color::BG_RED) - 1);
+			write(color::TEXT_WHITE, sizeof(color::TEXT_WHITE) - 1);
+			std::vsnprintf(buffer, length, format, args);
 			va_end(args);
 			write(buffer, std::strlen(buffer));
 			write(color::RESET, sizeof(color::RESET) - 1);
@@ -160,4 +245,4 @@ constexpr size_t LOG_BUFFER_SZIE = 128;
 void write(const char *data, size_t len);
 extern char log_buffer[LOG_BUFFER_SZIE];
 
-using LOG = LOG_<write, LogLevel::INFO, log_buffer, sizeof(log_buffer)>;
+using LOG = LOG_<write, LogLevel::TRACE, log_buffer, sizeof(log_buffer)>;
