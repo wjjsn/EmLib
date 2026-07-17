@@ -1,7 +1,20 @@
 project('EmLib', 'c', 'cpp', meson_version: '>=0.60')
 
-subdir('CherryRB')
-subdir('SEGGER_RTT')
-subdir('HAL')
-subdir('Hardware')
-subdir('eLOG')
+dependencies = [
+  dependency('HAL'),
+  dependency('CherryRB'),
+  dependency('Hardware'),
+  dependency('SEGGER_RTT'),
+  dependency('template_schedule')
+]
+
+sources = [
+  'main.c',
+]
+
+exe = executable(
+  'tmp',
+  sources,
+  dependencies : dependencies,
+  install : true,
+)
