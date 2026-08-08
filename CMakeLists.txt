@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
-enable_language(C)
+project(EmLib LANGUAGES C CXX ASM)
 
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
-#通过注释和解除注释来使用外部库
-add_subdirectory(CherryRB)
-add_subdirectory(SEGGER_RTT)
-add_subdirectory(HAL)
-add_subdirectory(Hardware)
-add_subdirectory(eLOG)
+# 通过注释和解除注释来使用外部库（子项目位于 subprojects/ 下）
+# 作为子目录被引用（add_subdirectory(EmLib)）后，以下库目标对上层全局可见，
+# 上游可直接 target_link_libraries(<目标> PRIVATE CherryRB SEGGER_RTT HAL Hardware template_schedule)
+add_subdirectory(subprojects/CherryRB)
+add_subdirectory(subprojects/SEGGER_RTT)
+add_subdirectory(subprojects/HAL)
+add_subdirectory(subprojects/Hardware)
+add_subdirectory(subprojects/template_schedule)
